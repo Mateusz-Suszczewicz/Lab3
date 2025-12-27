@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+*.user
+*.suo
+*.cache
+.vs/
+.idea/
+.vscode/
+*.log
+*.db
+*.sqlite
+Dockerfile.user

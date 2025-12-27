@@ -1,0 +1,476 @@
+{
+	"info": {
+		"_postman_id": "044d03e1-e750-4897-b9c6-4df0e7fb04aa",
+		"name": "ProjectManager API – dokumentacja (pełna)",
+		"description": "Zawiera endpointy udostępnione przez API wraz z opisami i przykładowymi payloadami.\n\nMechanizmy tworzenia obiektów:\n\n- Tworzenie encji odbywa się przez endpointy POST (Projects/Tasks/Members/Comments).\n    \n- API zwraca reprezentację zasobu z identyfikatorem (GUID) oraz linkami HATEOAS w polu `_links`.\n    \n- Relacje: Project → Tasks (1.._), Task → Comments (1.._), Project ↔ Members (_.._) przez tabelę łączącą.\n    \n- Walidacja: wymagane pola (np. Name/Title/Email/Content), przycięcie whitespace.\n    \n- Warstwy: kontrolery wywołują serwisy, a serwisy zapisują dane przez EF Core do PostgreSQL.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17205708",
+		"_collection_link": "https://interstellar-rocket-568204.postman.co/workspace/1~539652aa-d7d6-42cc-8dfa-15dd61985551/collection/17205708-044d03e1-e750-4897-b9c6-4df0e7fb04aa?action=share&source=collection_link&creator=17205708"
+	},
+	"item": [
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "POST Create Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"System zarz\\u0105dzania zadaniami\",\n  \"description\": \"Projekt demonstracyjny\",\n  \"startDate\": \"2025-01-01\",\n  \"plannedEndDate\": \"2025-12-31\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET List Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Project Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"System zarz\\u0105dzania zadaniami (updated)\",\n  \"description\": \"Zaktualizowany opis\",\n  \"startDate\": \"2025-01-01\",\n  \"plannedEndDate\": \"2026-01-31\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Zasób główny: projekty. CRUD dla projektu."
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "POST Create Task (in Project)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Implementacja API\",\n  \"description\": \"Dodanie endpoint\\u00f3w REST\",\n  \"priority\": 1,\n  \"dueDate\": \"2025-03-01\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET List Tasks (in Project)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Task Details (in Project)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/tasks/{taskId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"tasks",
+								"{taskId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update Task (in Project)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Implementacja API (updated)\",\n  \"description\": \"Aktualizacja opisu\",\n  \"priority\": 2,\n  \"dueDate\": \"2025-03-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/tasks/{taskId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"tasks",
+								"{taskId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Delete Task (in Project)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/tasks/{taskId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"tasks",
+								"{taskId}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Zadania w ramach projektu. CRUD dla TaskItem. Uwaga: priority = 0(Low),1(Medium),2(High)."
+		},
+		{
+			"name": "Members",
+			"item": [
+				{
+					"name": "POST Create Member",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jan Kowalski\",\n  \"email\": \"jan.kowalski@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Member (stub)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/members/{memberId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"members",
+								"{memberId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Add Member To Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"memberId\": \"{{memberId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET List Project Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Remove Member From Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{projectId}/members/{memberId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"{projectId}",
+								"members",
+								"{memberId}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Użytkownicy (członkowie zespołu) oraz przypisywanie ich do projektów."
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "POST Add Comment to Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Komentarz testowy\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/{taskId}/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"{taskId}",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET List Comments for Task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/{taskId}/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"{taskId}",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Delete Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/{taskId}/comments/{commentId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"{taskId}",
+								"comments",
+								"{commentId}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Komentarze do zadań. CRUD w zakresie dodawania/listowania/usuwania."
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "projectId",
+			"value": ""
+		},
+		{
+			"key": "taskId",
+			"value": ""
+		},
+		{
+			"key": "memberId",
+			"value": ""
+		},
+		{
+			"key": "commentId",
+			"value": ""
+		}
+	]
+}
